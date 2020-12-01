@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 /* Copyright (c) 2006 Derrick Coetzee
 Copyright (c) 2018 Miller Cy Chan
 
@@ -335,7 +335,7 @@ namespace SpatialQuant
 	void random_permutation_2d(int width, int height, deque<pair<int, int> >& result) {
 		vector<int> perm1d;
 		random_permutation(width * height, perm1d);
-		for (auto& it = perm1d.cbegin(); it != perm1d.cend(); ++it)
+		for (auto it = perm1d.cbegin(); it != perm1d.cend(); ++it)
 			result.emplace_front(*it % width, *it / width);
 	}
 
@@ -523,7 +523,7 @@ namespace SpatialQuant
 					for (int j_x = max(0, i_x - center_x); j_x < max_j_x; ++j_x) {
 						if (i_x == j_x && i_y == j_y)
 							continue;
-						auto& b_ij = b_value(b, i_x, i_y, j_x, j_y);
+						auto b_ij = b_value(b, i_x, i_y, j_x, j_y);
 						for (int v = 0; v < palette_size; ++v) {
 							auto v1 = coarse_variables(i_x, i_y, v);
 							for (int alpha = v; alpha < palette_size; ++alpha) {
@@ -591,9 +591,9 @@ namespace SpatialQuant
 
 		const int length = hasSemiTransparency ? 4 : 3;
 		for (int k = 0; k < length; ++k) {
-			auto& S_k = extract_vector_layer_2d(s, k);
-			auto& R_k = extract_vector_layer_1d(r, k);
-			auto& palette_channel = (-2.0 * S_k).matrix_inverse() * R_k;
+			auto S_k = extract_vector_layer_2d(s, k);
+			auto R_k = extract_vector_layer_1d(r, k);
+			auto palette_channel = (-2.0 * S_k).matrix_inverse() * R_k;
 			for (UINT v = 0; v < nMaxColor; ++v) {
 				double val = palette_channel[v];
 				if (val < 0.0 || isnan(val))
@@ -706,7 +706,7 @@ namespace SpatialQuant
 			auto& a = a_vec[coarse_level];
 			auto& b = b_vec[coarse_level];
 			const int b_width = b.get_width(), b_height = b.get_height();
-			auto& middle_b = b_value(b, 0, 0, 0, 0);
+			auto middle_b = b_value(b, 0, 0, 0, 0);
 
 			const int center_x = (b_width - 1) / 2, center_y = (b_height - 1) / 2;
 			const int min_x = min(1, center_x - 1), min_y = min(1, center_y - 1);
@@ -743,7 +743,7 @@ namespace SpatialQuant
 								continue;
 							if (j_x < 0 || j_x >= coarse_width)
 								continue;
-							auto& b_ij = b_value(b, i_x, i_y, j_x, j_y);
+							auto b_ij = b_value(b, i_x, i_y, j_x, j_y);
 							auto& j_pal = (*p_palette_sum)(j_x, j_y);
 							for (BYTE p = 0; p < length; ++p)
 								p_i[p] += b_ij[p] * j_pal[p];

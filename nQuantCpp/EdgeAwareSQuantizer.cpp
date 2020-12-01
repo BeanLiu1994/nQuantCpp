@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 /* Copyright (c) 2006 Derrick Coetzee
 Copyright(c) 2015 Hao-Zhi Huang
 Copyright (c) 2018-2019 Miller Cy Chan
@@ -127,7 +127,7 @@ namespace EdgeAwareSQuant
 	void random_permutation_2d(int width, int height, deque<pair<int, int> >& result) {
 		vector<int> perm1d;
 		random_permutation(width * height, perm1d);
-		for (auto& it = perm1d.cbegin(); it != perm1d.cend(); ++it)
+		for (auto it = perm1d.cbegin(); it != perm1d.cend(); ++it)
 			result.emplace_front(*it % width, *it / width);
 	}
 
@@ -339,9 +339,9 @@ namespace EdgeAwareSQuant
 		float max_palette_delta = 0.0f, min_palette_delta = 1.0f;
 		const int length = hasSemiTransparency ? 4 : 3;
 		for (short k = 0; k < length; k++) {
-			auto& S_k = extract_vector_layer_2d(s, k);
-			auto& R_k = extract_vector_layer_1d(r, k);
-			auto& palette_channel = (-2.0f * S_k).matrix_inverse() * R_k;
+			auto S_k = extract_vector_layer_2d(s, k);
+			auto R_k = extract_vector_layer_1d(r, k);
+			auto palette_channel = (-2.0f * S_k).matrix_inverse() * R_k;
 			UINT v = 0;
 			for (; v < palette.size(); ++v) {
 				auto val = palette_channel[v];
